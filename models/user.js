@@ -17,15 +17,13 @@ const userSchema =  new Schema({
         required: [true, 'Email not provided.'],
         validate: {
             validator: (value) => {
-                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
             },
-            message: `${value} is not a valid email!`
+            message: `This is not a valid email!`
         }
     },
     password: {
         type: String,
-        minLenth: 10,
-        maxLength: 25,
         required: [true, 'Password not provided.']
     },
     createdAt: {

@@ -21,8 +21,8 @@ exports.signup = (req, res) => {
     })
 }
 
-exoirts.signin = (req, res) => {
-    const { name, email, password } = req.body;
+exports.signin = (req, res) => {
+    const { email, password } = req.body;
 
     User.findOne({
         email

@@ -17,8 +17,8 @@ database.once('open', () => {
   console.log('connected with database');
 })
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const indexRoutes = require('./routes/index');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', indexRoutes);
+app.use('/user', userRoutes);
 
 module.exports = app;
