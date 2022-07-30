@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 mongoose.connect(process.env.db, { 
@@ -22,6 +23,8 @@ const userRoutes = require('./routes/user');
 
 const app = express();
 
+app.use(cors());
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,6 +32,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRoutes);
-app.use('/user', userRoutes);
+app.use('/', userRoutes);
 
 module.exports = app;

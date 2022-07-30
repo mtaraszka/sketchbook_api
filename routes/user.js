@@ -5,24 +5,18 @@ const { verifyToken } = require('../middlewares/authJWT');
 
 router.post('/register', signup)
 
-router.post('/login', signin);
+router.post('/login', verifyToken, signin);
 
 router.get('/hiddencontent', verifyToken, (req, res) => {
   if (!req.user) {
-    res.status(403)
+    res.status(401)
       .send({
         message: "Invalid JWT token"
       });
-  }
-  if (req.user == "admin") {
+  } else {
     res.status(200)
       .send({
         message: "Congratulations! but there is no hidden content"
-      });
-  } else {
-    res.status(403)
-      .send({
-        message: "Unauthorised access"
       });
   }
 })

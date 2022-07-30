@@ -8,7 +8,7 @@ exports.signup = (req, res) => {
 
     const user = new User({
         name,
-        email, 
+        email,
         password: bcrypt.hashSync(password, 8),
     });
 
@@ -22,6 +22,20 @@ exports.signup = (req, res) => {
 }
 
 exports.signin = (req, res) => {
+    const { user } = req;
+
+    if (user) {
+        res.status(200)
+          .send({
+              user: {
+                  id: user._id,
+                  email: user.email,
+                  name: user.name
+              },
+          })
+      return;
+    }
+
     const { email, password } = req.body;
 
     User.findOne({
@@ -61,7 +75,7 @@ exports.signin = (req, res) => {
                     name: user.name
                 },
                 message: "Login successfull",
-                accessToken: token,
+                token: token,
             })
     })
 }
