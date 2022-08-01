@@ -32,7 +32,7 @@ exports.signin = (req, res) => {
                   email: user.email,
                   name: user.name
               },
-              token: `JWT ${token}`,
+              token: token,
           })
       return;
     }
@@ -57,7 +57,7 @@ exports.signin = (req, res) => {
         if(!passwordIsValid) {
             return res.status(401)
                 .send({
-                    token: null,
+                    accessToken: null,
                     message: 'Invalid password.'
                 });
         }
@@ -76,7 +76,7 @@ exports.signin = (req, res) => {
                     name: user.name
                 },
                 message: "Login successfull",
-                token: `JWT ${token}`,
+                token: token,
             })
     })
 }

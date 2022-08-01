@@ -12,7 +12,7 @@ exports.verifyToken = (req, res, next) => {
         jwt.verify(token, process.env.API_SECRET, (error, decode) => {
             if (error) {
                 req.user = undefined;
-                res.send(401);
+                res.sendStatus(401);
                 return;
             }
             User.findOne({
@@ -23,7 +23,7 @@ exports.verifyToken = (req, res, next) => {
                         .send({ message: error })
                 } else {
                     req.user = user;
-                    req.token = `JWT ${token}`;
+                    req.token = token;
                     next();
                 }
             })
