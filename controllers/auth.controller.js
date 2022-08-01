@@ -22,7 +22,7 @@ exports.signup = (req, res) => {
 }
 
 exports.signin = (req, res) => {
-    const { user } = req;
+    const { user, token } = req;
 
     if (user) {
         res.status(200)
@@ -32,6 +32,7 @@ exports.signin = (req, res) => {
                   email: user.email,
                   name: user.name
               },
+              token: `JWT ${token}`,
           })
       return;
     }
@@ -56,7 +57,7 @@ exports.signin = (req, res) => {
         if(!passwordIsValid) {
             return res.status(401)
                 .send({
-                    accessToken: null,
+                    token: null,
                     message: 'Invalid password.'
                 });
         }
@@ -75,7 +76,7 @@ exports.signin = (req, res) => {
                     name: user.name
                 },
                 message: "Login successfull",
-                token: token,
+                token: `JWT ${token}`,
             })
     })
 }

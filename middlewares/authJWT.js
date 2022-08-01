@@ -7,8 +7,14 @@ exports.verifyToken = (req, res, next) => {
     const { authorization } = headers;
 
     if(headers && authorization && authorization.split(' ')[0] === 'JWT') {
-        jwt.verify(authorization.split(' ')[1], process.env.API_SECRET, (error, decode) => {
-            if (error) req.user = undefined;
+        const token = authorization.split(' ')[1];
+
+        jwt.verify(token, process.env.API_SECRET, (error, decode) => {
+            if (error) {
+                req.user = undefined;
+                res.send(401);
+                return;
+            }
             User.findOne({
                 _id: decode.id
             }).exec((error, user) => {
@@ -17,6 +23,7 @@ exports.verifyToken = (req, res, next) => {
                         .send({ message: error })
                 } else {
                     req.user = user;
+                    req.token = `JWT ${token}`;
                     next();
                 }
             })
