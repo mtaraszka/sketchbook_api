@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
+const UserAssets = require('../models/userAssets');
 
-exports.signup = (req, res) => {
+exports.signup = async (req, res) => {
     const { name, email, password } = req.body;
 
     const user = new User({
@@ -12,11 +13,21 @@ exports.signup = (req, res) => {
         password: bcrypt.hashSync(password, 8),
     });
 
+    const assets = new UserAssets ({
+        userID: user._id
+    })
+
     user.save((error) => {
         if(error) {
             res.status(500).send({ message: error });
         } else {
-            res.status(200).send({ message: "User registered." });
+            assets.save((error) => {
+                if(error) {
+                    res.status(500).send({ message: error });
+                } else {
+                    res.status(200).send({ message: "User and his default assets registered." });
+                }
+            })
         }
     })
 }

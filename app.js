@@ -20,6 +20,7 @@ database.once('open', () => {
 
 const indexRoutes = require('./routes/index');
 const userRoutes = require('./routes/user');
+const userAssetsRoutes = require('./routes/userAssets');
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRoutes);
 app.use('/', userRoutes);
+app.use('/', userAssetsRoutes);
 
 module.exports = app;
