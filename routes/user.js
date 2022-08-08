@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { signup, signin } = require('../controllers/auth.controller');
+const { signup, signin, deleteAccount } = require('../controllers/auth.controller');
 const { verifyToken } = require('../middlewares/authJWT');
 
 router.post('/register', signup);
 
 router.post('/login', verifyToken, signin);
+
+router.delete('/delete_account', verifyToken, deleteAccount);
 
 router.get('/hiddencontent', verifyToken, (req, res) => {
   if (!req.user) {
